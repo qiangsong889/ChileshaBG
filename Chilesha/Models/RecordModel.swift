@@ -36,6 +36,7 @@ final class RecordModel: ObservableObject {
             
             for mealFood in arrayOfMeals {
                 if mealFood.createdDate!.formatted(date: .abbreviated, time: .omitted) == dateString {
+                    print("this is each mealfood \(mealFood) \(mealFood.food) \(mealFood.food.name)")
                     mealFoods.append(mealFood)
                     caloriesADay = caloriesADay + mealFood.totalCalories
                 }

@@ -11,7 +11,7 @@ struct SearchView: View {
     @EnvironmentObject var calculatorView: CalculatorViewModel
     @State private var showNumberPad = false
     @State private var settingsDetent = PresentationDetent.medium
-
+    
     private let adaptiveColumn = [
         GridItem(.adaptive(minimum: 100))
     ]
@@ -21,7 +21,7 @@ struct SearchView: View {
     
     var body: some View {
         ZStack {
-//            Color.mint.opacity(0.5).ignoresSafeArea()
+            //            Color.mint.opacity(0.5).ignoresSafeArea()
             VStack(spacing: 5) {
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -35,24 +35,23 @@ struct SearchView: View {
                     RoundedRectangle(cornerRadius: 35)
                         .fill(.background)
                 }
-                ScrollView{
-                    LazyVGrid(columns: adaptiveColumn, spacing: 10) {
-                        ForEach(FoodData.data, id: \.self) { food in
-                            if (searchViewModel.searchText.isEmpty || food.name.containsCaseInsensitive(searchViewModel.searchText)) {
-                                FoodGridCell(food: food)
-                                    .withTapEffect {
-                                        print("\(food.name) tapped")
-//                                        calculatorView.add(food: food)
-//                                        searchViewModel.showFoodCardView = true
-                                        searchViewModel.selectedFood = food
-                                        showNumberPad = true
-                                    }
-                            }
+                List(FoodData.data) { food in
+                    if searchViewModel.searchText.isEmpty || food.name.containsCaseInsensitive(searchViewModel.searchText) {
+                        HStack {
+                            Text(food.name)
+                                .font(.headline)
+                            Spacer()
+                            Text("\(food.caloriesPer100g, specifier: "%.2f") / 100g")
+                                .font(.subheadline)
                         }
-                        
+                        .withTapEffect {
+                            print("\(food.name) tapped")
+                            searchViewModel.selectedFood = food
+                            showNumberPad = true
+                        }
                     }
                 }
-                .padding(5)
+                .listStyle(.plain)
                 
             }
             .padding(.top, 30)
@@ -67,18 +66,20 @@ struct SearchView: View {
             } content: {
                 NumberPadView(searchViewModel: searchViewModel, showNumberPad: $showNumberPad)
                     .presentationDetents(
-                             [.medium],
-                             selection: $settingsDetent
-                          )
+                        [.medium],
+                        selection: $settingsDetent
+                    )
             }
-
+            
         }
         
-    
+        
     }
 }
 #Preview {
+    var router = NavigationRouter()
     SearchView()
         .environmentObject(CalculatorViewModel())
-
+        .environmentObject(router)
+    
 }

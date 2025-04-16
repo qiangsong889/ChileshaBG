@@ -15,10 +15,10 @@ struct CalculatorFoodCell: View {
                 Image(mealFood.food.imageName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 70)
+                    .frame(width: 60)
                 VStack(alignment: .leading) {
                     Text(mealFood.food.name)
-                        .font(.title2)
+                        .font(.headline)
                         .fontWeight(.bold)
                     Text("\(mealFood.food.caloriesPer100g, specifier: "%.2f")Kcal/100g")
                         .font(.footnote)
@@ -26,7 +26,7 @@ struct CalculatorFoodCell: View {
                 Spacer()
                 VStack(alignment: .trailing) {
                     Text("\(mealFood.totalCalories, specifier: "%.2f") Kcal")
-                        .font(.title2)
+                        .font(.headline)
                         .fontWeight(.bold)
                     Text("\(mealFood.gram, specifier: "%.2f") g")
                         .font(.footnote)
@@ -38,5 +38,5 @@ struct CalculatorFoodCell: View {
 }
 
 #Preview {
-//    CalculatorFoodCell(mealFood: MealFood(food: FoodData.data[0], gram: 0, totalCalories: 0, createdDate: Date.now))
+    CalculatorFoodCell(mealFood: MealFood(food: FoodData.data[0], gram: 0, totalCalories: 0))
 }

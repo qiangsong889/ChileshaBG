@@ -36,7 +36,7 @@ struct FoodCardView: View {
                 HStack {
                     Text("Total Kcal:")
                         .fontWeight(.semibold)
-                    Text("\(calculatorView.selectedMealFood.gram * calculatorView.selectedMealFood.food.caloriesPer1g, specifier: "%.2f")")
+                    Text("\(calculatorView.selectedMealFood.gram * Double.dividedBy100(calculatorView.selectedMealFood.food.caloriesPer100g), specifier: "%.2f")")
                         .fontWeight(.semibold)
                     
                 }

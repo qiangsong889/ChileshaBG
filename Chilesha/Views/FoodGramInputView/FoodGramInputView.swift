@@ -99,6 +99,8 @@ struct NumberPadView: View {
     var searchViewModel: SearchViewModel?
     @Binding var showNumberPad: Bool
     @EnvironmentObject var calculatorView: CalculatorViewModel
+    @EnvironmentObject var router: NavigationRouter
+
     @State private var amount = ""
     var type: NumberPadType = .Add
     enum NumberPadType {
@@ -120,6 +122,7 @@ struct NumberPadView: View {
                 switch type {
                 case .Add:
                     calculatorView.add(food: searchViewModel!.selectedFood!, gram: Double(amount)!)
+                    router.popToRoot()
                     showNumberPad = false
                 case .Update:
                     calculatorView.update(gram: Double(amount)!)
@@ -139,5 +142,7 @@ struct NumberPadView: View {
 }
 
 #Preview {
+    var router = NavigationRouter()
     NumberPadView(showNumberPad: .constant(true), type: .Update)
+        .environmentObject(router)
 }

@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+
     var body: some View {
         TabView {
             Tab("Calculator", systemImage: "rectangle.and.paperclip") {
@@ -28,9 +29,7 @@ struct ContentView: View {
 }
 
 #Preview {
-
     ContentView()
         .environmentObject(CalculatorViewModel())
         .environmentObject(RecordModel())
-
 }

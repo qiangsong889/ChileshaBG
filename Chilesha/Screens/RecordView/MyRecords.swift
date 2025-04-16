@@ -28,6 +28,7 @@ struct MyRecords: View {
             }
         }
         .onAppear(perform: {
+            print("MealFoods \(MealFoods)")
 //            recordModel.sectionRecordByDate()
             recordModel.sectionRecordByDate(MealFoods)
             print("onAppera \(MealFoods)")

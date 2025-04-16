@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct ChileshaApp: App {
+    var router = NavigationRouter()
     var calculatorViewModel = CalculatorViewModel()
     var caloriesRecordModel = RecordModel()
     let container: ModelContainer
@@ -20,10 +21,11 @@ struct ChileshaApp: App {
                 .environmentObject(calculatorViewModel)
                 .environmentObject(caloriesRecordModel)
                 .modelContainer(container)
+                .environmentObject(router)
         }
     }
     init() {
-        let schema = Schema([Book.self, MealFood.self])
+        let schema = Schema([MealFood.self, Food.self])
         let config = ModelConfiguration("ChileshaDB", schema: schema)
         
         do {
@@ -32,14 +34,6 @@ struct ChileshaApp: App {
         } catch {
             fatalError("Could not configure the container")
         }
-//        let config = ModelConfiguration(url: URL.documentsDirectory.appending(path: "MyBooks.store"))
-//        print("path \(URL.documentsDirectory.appending(path: "MyBooks.store"))")
-//        do {
-//            container = try ModelContainer(for: Book.self, configurations: config)
-//        } catch {
-//            fatalError("Could not cofngire the container")
-//        }
-//        print(URL.applicationSupportDirectory.path(percentEncoded: false))
         print(URL.applicationSupportDirectory.path(percentEncoded: false))
     }
 }

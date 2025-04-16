@@ -9,16 +9,14 @@ import SwiftUI
 
 struct CalculatorView: View {
     @EnvironmentObject var calculatorView: CalculatorViewModel
-    @EnvironmentObject var recordModel: RecordModel
     @State var showNumberPad = false
     @State private var settingsDetent = PresentationDetent.medium
     @Environment(\.modelContext) private var context
-    //    @Query(sort: \Book.status) private var books: [Book]
+    @EnvironmentObject var router: NavigationRouter
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $router.path) {
             ZStack(alignment: .bottomTrailing) {
-                
                 VStack {
                     List($calculatorView.calculatorData, id: \.self, editActions: .delete) { $mealFood in
                         CalculatorFoodCell(mealFood: mealFood)
@@ -56,9 +54,7 @@ struct CalculatorView: View {
                     }
                 }
                 
-                NavigationLink {
-                    SearchView()
-                } label: {
+                NavigationLink(value: "SearchView") {
                     Image(systemName: "plus")
                         .font(.title.weight(.semibold))
                         .padding()
@@ -68,7 +64,12 @@ struct CalculatorView: View {
                         .shadow(radius: 4)
                 }
                 
-                
+            }
+            
+            .navigationDestination(for: String.self) { value in
+                if value == "SearchView" {
+                    SearchView()
+                }
             }
         }
         .sheet(isPresented: $showNumberPad, content: {
@@ -82,8 +83,8 @@ struct CalculatorView: View {
     }
     
     func addMealFood(_ foods: [MealFood]) -> Void {
-//        let createdDate: Date =  Calendar.current.date(byAdding: .day, value: -2, to: Date.now)!
         let createdDate: Date = Date.now
+//        let createdDate: Date =  Calendar.current.date(byAdding: .day, value: -2, to: Date.now)!
         let addCreateDate: [MealFood] = foods.map { mealFood in
             let modified = mealFood
             modified.createdDate = createdDate
@@ -103,6 +104,8 @@ struct CalculatorView: View {
 }
 
 #Preview {
+    var router = NavigationRouter()
     CalculatorView()
         .environmentObject(CalculatorViewModel())
+        .environmentObject(router)
 }
